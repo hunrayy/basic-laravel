@@ -7,19 +7,51 @@
     <title>Document</title>
 </head>
 <body>
-<form class="col-md-12 d-flex justify-content-center align-items-center" style="height: 100vh;">
+<form class="col-md-12 d-flex justify-content-center align-items-center" style="height: 100vh;" method="post" action="/register">
+    @csrf
     <div class="col-md-4">
         <h3 class="m-3">Register</h3>
+        @if (session('success'))
+        <div class="alert alert-success">
+            {!! session('success') !!}
+        </div>
+        @endif
+        @if ($errors->any())
+        <div>
+            @foreach ($errors->all() as $error)
+                <div class="text-danger">{{ $error}}</div>
+            @endforeach
+        </div>
+        @endif
+        <!-- firstname input -->
+        <div class="form-outline mb-4">
+            <input type="text" class="form-control" name="firstname" />
+            <label class="form-label">Firstname</label>
+        </div>
+
+        <!-- lastname input -->
+        <div class="form-outline mb-4">
+            <input type="text" class="form-control" name="lastname" />
+            <label class="form-label">Lastname</label>
+        </div>
+
         <!-- Email input -->
-        <div data-mdb-input-init class="form-outline mb-4">
-            <input type="email" id="form2Example1" class="form-control" />
-            <label class="form-label" for="form2Example1">Email address</label>
+        <div class="form-outline mb-4">
+            <input type="email" class="form-control" name="email" />
+            <label class="form-label" >Email address</label>
         </div>
 
         <!-- Password input -->
-        <div data-mdb-input-init class="form-outline mb-4">
-            <input type="password" id="form2Example2" class="form-control" />
-            <label class="form-label" for="form2Example2">Password</label>
+        <div class="form-outline mb-4">
+            <input type="password" class="form-control" name="password" />
+            <label class="form-label" >Password</label>
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" >gender</label>
+            <select name="gender">
+                <option value="male">male</option>
+                <option value="female">female</option>
+            </select>
         </div>
 
         <!-- 2 column grid layout for inline styling -->
@@ -27,8 +59,9 @@
             <div class="col d-flex justify-content-center">
             <!-- Checkbox -->
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                <label class="form-check-label" for="form2Example31"> Remember me </label>
+                <!-- <input class="form-check-input" type="checkbox" checked /> -->
+                 
+                <label class="form-check-label"> Remember me </label>
             </div>
             </div>
 
@@ -39,9 +72,8 @@
         </div>
 
         <!-- Submit button -->
-        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+        <button class="btn btn-primary btn-block mb-4">Sign in</button>
 
-        <!-- Register buttons -->
         <div class="text-center">
             <p>Already have an account? <a href="/login">Login</a></p>
         </div>
