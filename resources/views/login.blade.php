@@ -18,10 +18,21 @@
         <form action="/login" method="POST">
           @csrf
             <h3 class="m-2">Login</h3>
+            @if($errors->any())
+              @foreach($errors->all() as $error)
+                <div class="text-danger">{{ $error}}</div>
+              @endforeach
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input type="email" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid email address" name="email" />
+              placeholder="Enter a valid email address" name="email" value="{{ old('email') }}" />
             <label class="form-label px-1 mt-1" >Email address</label>
           </div>
 
