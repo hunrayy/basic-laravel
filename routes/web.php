@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Register_Login;
 
+// Public routes
 Route::get('/', function () {
     return view('welcome');
 });
@@ -10,32 +13,28 @@ Route::get('/about', function () {
     return view('about');
 });
 
-// Route::get('/about', [AdminController@about]);
+// Authenticated user routes
+// Route::middleware('guest')->group(function () {
+//     Route::get('/register', [Register_Login::class, 'register']);
+//     Route::post('/register', [Register_Login::class, 'registerFunction']);
 
-// Route::get('/admin', [App\Http\Controllers\AdminController::class,'adminPage']);
-// Route::get('/admin/login', [App\Http\Controllers\AdminController::class,'adminLogin']);
+//     Route::get('/login', [Register_Login::class, 'login'])->name('login');
+//     Route::post('/login', [Register_Login::class, 'loginFunction']);
+// });
 
-Route::get('/register', [App\Http\Controllers\Register_Login::class, 'register']);
-Route::post('/register', [App\Http\Controllers\Register_Login::class, 'registerFunction']);
+// Route::middleware('auth')->group(function () {
+//     Route::get('/dashboard', [Register_Login::class, 'showDashboard']);
+//     Route::post('/logout', [Register_Login::class, 'logout']);
+// });
 
-Route::get('/login', [App\Http\Controllers\Register_Login::class, 'login']);
-Route::post('/login', [App\Http\Controllers\Register_Login::class, 'loginFunction']);
+// Admin protected routes
+Route::middleware(['admin'])->group(function () {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::get('/register', [App\Http\Controllers\Register_Login::class, 'register']);
+    // Add more admin routes here...
+    Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'adminDashboard']);
+    Route::post('/admin/logout', [AdminController::class, 'adminLogout']);
+});
+Route::middleware(['guest'])->group(function () {
+    Route::get('/admin/login', [AdminController::class, 'adminLogin']);
+    Route::post('/admin/login', [AdminController::class, 'adminLoginFunction']);
+});

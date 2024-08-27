@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\facades\Validator;
+use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
 class Register_Login extends Controller
@@ -75,6 +75,23 @@ class Register_Login extends Controller
             ->withInput();
     }
 
+    }
+
+
+    public function showDashboard(){
+        return view('dashboard');
+    }
+    
+    public function logout(Request $request){
+        Auth::logout();
+
+        // Invalidate the session
+        $request->session()->invalidate();
+
+        // Regenerate the CSRF token
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 
 
